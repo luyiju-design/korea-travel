@@ -71,7 +71,11 @@ body{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);co
 .quick-amt:active{background:var(--surface2)}
 .phrase-group{margin-bottom:16px}
 .phrase-group-title{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;letter-spacing:0.5px}
-.phrase{background:var(--surface2);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.phrase{background:var(--surface2);border-radius:12px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between}
+.phrase-left{flex:1}
+.phrase-ko{font-size:15px;font-weight:700;line-height:1.3}
+.phrase-play{width:38px;height:38px;border-radius:50%;background:#03c75a;border:none;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(3,199,90,0.3)}
+.phrase-play:active{transform:scale(0.9);background:#029a48}
 .phrase-ko{font-size:15px;font-weight:700;line-height:1.3}
 .phrase-zh{font-size:12px;color:var(--text2);margin-top:1px}
 .phrase-sound{font-size:11px;color:var(--d4);font-weight:500;background:#eef6ff;padding:2px 8px;border-radius:8px;margin-top:2px;display:inline-block}
@@ -130,31 +134,32 @@ body{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);co
     </div>
   </div>
   <div class="drawer-panel" id="panel-phrases">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:12px;background:var(--surface2);padding:8px 12px;border-radius:10px">🔊 點右邊播放鍵聽韓文發音（需開啟手機聲音）</div>
     <div class="phrase-group"><div class="phrase-group-title">🍽 點餐 / 餐廳</div>
-      <div class="phrase"><div class="phrase-ko">이거 주세요</div><div class="phrase-zh">請給我這個</div><div class="phrase-sound">i-geo ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">메뉴판 주세요</div><div class="phrase-zh">請給我菜單</div><div class="phrase-sound">me-nyu-pan ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">계산해 주세요</div><div class="phrase-zh">請結帳</div><div class="phrase-sound">gye-san-hae ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">포장해 주세요</div><div class="phrase-zh">請幫我外帶</div><div class="phrase-sound">po-jang-hae ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">맵지 않게 해 주세요</div><div class="phrase-zh">請不要太辣</div><div class="phrase-sound">maep-ji an-ke hae ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">하나 더 주세요</div><div class="phrase-zh">請再給我一份</div><div class="phrase-sound">ha-na deo ju-se-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">두 명이요</div><div class="phrase-zh">兩位</div><div class="phrase-sound">du myeong-i-yo</div></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">이거 주세요</div><div class="phrase-zh">請給我這個</div><div class="phrase-sound">i-geo ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('이거 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">메뉴판 주세요</div><div class="phrase-zh">請給我菜單</div><div class="phrase-sound">me-nyu-pan ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('메뉴판 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">계산해 주세요</div><div class="phrase-zh">請結帳</div><div class="phrase-sound">gye-san-hae ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('계산해 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">포장해 주세요</div><div class="phrase-zh">請幫我外帶</div><div class="phrase-sound">po-jang-hae ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('포장해 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">맵지 않게 해 주세요</div><div class="phrase-zh">請不要太辣</div><div class="phrase-sound">maep-ji an-ke hae ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('맵지 않게 해 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">하나 더 주세요</div><div class="phrase-zh">請再給我一份</div><div class="phrase-sound">ha-na deo ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('하나 더 주세요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">두 명이요</div><div class="phrase-zh">兩位</div><div class="phrase-sound">du myeong-i-yo</div></div><button class="phrase-play" onclick="speakKo('두 명이요')">▶</button></div>
     </div>
     <div class="phrase-group"><div class="phrase-group-title">🛍 購物</div>
-      <div class="phrase"><div class="phrase-ko">얼마예요?</div><div class="phrase-zh">多少錢？</div><div class="phrase-sound">eol-ma-ye-yo?</div></div>
-      <div class="phrase"><div class="phrase-ko">카드 돼요?</div><div class="phrase-zh">可以刷卡嗎？</div><div class="phrase-sound">ka-deu dwae-yo?</div></div>
-      <div class="phrase"><div class="phrase-ko">세금 환급 돼요?</div><div class="phrase-zh">可以退稅嗎？</div><div class="phrase-sound">se-geum hwan-geup dwae-yo?</div></div>
-      <div class="phrase"><div class="phrase-ko">좀 더 싸게 해 주세요</div><div class="phrase-zh">可以便宜一點嗎？</div><div class="phrase-sound">jom deo ssa-ge hae ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">얼마예요?</div><div class="phrase-zh">多少錢？</div><div class="phrase-sound">eol-ma-ye-yo?</div></div><button class="phrase-play" onclick="speakKo('얼마예요?')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">카드 돼요?</div><div class="phrase-zh">可以刷卡嗎？</div><div class="phrase-sound">ka-deu dwae-yo?</div></div><button class="phrase-play" onclick="speakKo('카드 돼요?')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">세금 환급 돼요?</div><div class="phrase-zh">可以退稅嗎？</div><div class="phrase-sound">se-geum hwan-geup dwae-yo?</div></div><button class="phrase-play" onclick="speakKo('세금 환급 돼요?')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">좀 더 싸게 해 주세요</div><div class="phrase-zh">可以便宜一點嗎？</div><div class="phrase-sound">jom deo ssa-ge hae ju-se-yo</div></div><button class="phrase-play" onclick="speakKo('좀 더 싸게 해 주세요')">▶</button></div>
     </div>
     <div class="phrase-group"><div class="phrase-group-title">🚇 交通 / 方向</div>
-      <div class="phrase"><div class="phrase-ko">여기가 어디예요?</div><div class="phrase-zh">這裡是哪裡？</div><div class="phrase-sound">yeo-gi-ga eo-di-ye-yo?</div></div>
-      <div class="phrase"><div class="phrase-ko">화장실 어디예요?</div><div class="phrase-zh">廁所在哪裡？</div><div class="phrase-sound">hwa-jang-shil eo-di-ye-yo?</div></div>
-      <div class="phrase"><div class="phrase-ko">지하철역 어디예요?</div><div class="phrase-zh">地鐵站在哪裡？</div><div class="phrase-sound">ji-ha-cheol-yeok eo-di-ye-yo?</div></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">여기가 어디예요?</div><div class="phrase-zh">這裡是哪裡？</div><div class="phrase-sound">yeo-gi-ga eo-di-ye-yo?</div></div><button class="phrase-play" onclick="speakKo('여기가 어디예요?')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">화장실 어디예요?</div><div class="phrase-zh">廁所在哪裡？</div><div class="phrase-sound">hwa-jang-shil eo-di-ye-yo?</div></div><button class="phrase-play" onclick="speakKo('화장실 어디예요?')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">지하철역 어디예요?</div><div class="phrase-zh">地鐵站在哪裡？</div><div class="phrase-sound">ji-ha-cheol-yeok eo-di-ye-yo?</div></div><button class="phrase-play" onclick="speakKo('지하철역 어디예요?')">▶</button></div>
     </div>
     <div class="phrase-group"><div class="phrase-group-title">💬 基本禮貌</div>
-      <div class="phrase"><div class="phrase-ko">감사합니다</div><div class="phrase-zh">謝謝</div><div class="phrase-sound">gam-sa-ham-ni-da</div></div>
-      <div class="phrase"><div class="phrase-ko">죄송합니다</div><div class="phrase-zh">對不起</div><div class="phrase-sound">joe-song-ham-ni-da</div></div>
-      <div class="phrase"><div class="phrase-ko">괜찮아요</div><div class="phrase-zh">沒關係</div><div class="phrase-sound">gwaen-chan-a-yo</div></div>
-      <div class="phrase"><div class="phrase-ko">잠시만요</div><div class="phrase-zh">請等一下</div><div class="phrase-sound">jam-si-man-yo</div></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">감사합니다</div><div class="phrase-zh">謝謝</div><div class="phrase-sound">gam-sa-ham-ni-da</div></div><button class="phrase-play" onclick="speakKo('감사합니다')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">죄송합니다</div><div class="phrase-zh">對不起</div><div class="phrase-sound">joe-song-ham-ni-da</div></div><button class="phrase-play" onclick="speakKo('죄송합니다')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">괜찮아요</div><div class="phrase-zh">沒關係</div><div class="phrase-sound">gwaen-chan-a-yo</div></div><button class="phrase-play" onclick="speakKo('괜찮아요')">▶</button></div>
+      <div class="phrase"><div class="phrase-left"><div class="phrase-ko">잠시만요</div><div class="phrase-zh">請等一下</div><div class="phrase-sound">jam-si-man-yo</div></div><button class="phrase-play" onclick="speakKo('잠시만요')">▶</button></div>
     </div>
   </div>
   <div class="drawer-panel" id="panel-info">
@@ -174,38 +179,38 @@ const DAYS=[
 {day:1,date:'3/26（四）',title:'抵達＋明洞',subtitle:'機場→換錢→藥局→炸雞',spots:[
 {n:1,time:'16:05',name:'抵達仁川機場 T2',note:'過海關＋領行李約 40-60min',tag:'transport',lat:37.4602,lng:126.4407},
 {n:2,time:'18:10',name:'機場巴士 → 明洞',note:'車程約 70min',tag:'transport',lat:37.5608,lng:126.9832},
-{n:3,time:'19:30',name:'MoneyPlanet 換錢',note:'⚠️ 週四營業到20:30，下車直奔！',tag:'activity',lat:37.5608,lng:126.9832},
-{n:4,time:'20:00',name:'樂天百貨領 T-money',note:'1F退稅櫃檯或B1外籍服務台',tag:'activity',lat:37.5652,lng:126.9832},
-{n:5,time:'20:30',name:'NOVA PHARMACY 藥局',note:'營業到23:00',tag:'shop',lat:37.5610,lng:126.9833},
-{n:6,time:'21:00',name:'🍗 BHC 炸雞',note:'明洞店，營業到凌晨12點',tag:'food',lat:37.5645,lng:126.9838},
-{n:7,time:'23:00',name:'Check in PIPE Hostel',note:'東大門',tag:'stay',lat:37.5611,lng:127.0056}]},
+{n:3,time:'19:30',name:'MoneyPlanet 換錢',note:'⚠️ 週四營業到20:30，下車直奔！',tag:'activity',lat:37.5608,lng:126.9832,naver:'머니플레닛 명동'},
+{n:4,time:'20:00',name:'樂天百貨領 T-money',note:'1F退稅櫃檯或B1外籍服務台',tag:'activity',lat:37.5652,lng:126.9832,naver:'롯데백화점 명동본점'},
+{n:5,time:'20:30',name:'NOVA PHARMACY 藥局',note:'營業到23:00',tag:'shop',lat:37.5610,lng:126.9833,naver:'노바약국 명동'},
+{n:6,time:'21:00',name:'🍗 BHC 炸雞',note:'明洞店，營業到凌晨12點',tag:'food',lat:37.5645,lng:126.9838,naver:'BHC치킨 명동점'},
+{n:7,time:'23:00',name:'Check in PIPE Hostel',note:'東大門',tag:'stay',lat:37.5611,lng:127.0056,naver:'파이프호스텔 동대문'}]},
 {day:2,date:'3/27（五）',title:'聖水洞深度探索',subtitle:'早午餐→形象照→烤黨→宵夜水芹牛肉',spots:[
-{n:1,time:'09:00',name:'🥪 Butty Sandwich House',note:'聖水 ⭐4.6',tag:'food',lat:37.5407,lng:127.0602},
+{n:1,time:'09:00',name:'🥪 Butty Sandwich House',note:'聖水 ⭐4.6',tag:'food',lat:37.5407,lng:127.0602,naver:'버티샌드위치하우스 성수'},
 {n:2,time:'10:30',name:'形象照（待確認）',note:'建議選聖水區域',tag:'activity',lat:37.545,lng:127.055},
-{n:3,time:'13:00',name:'聖水洞逛街',note:'潮牌、文具、設計師品牌',tag:'shop',lat:37.544,lng:127.056},
-{n:4,time:'15:00',name:'🥩 烤黨 KOKUMI 聖水',note:'⚠️ 平日15:00開門！建議提前取號',tag:'food',lat:37.5432,lng:127.0575},
+{n:3,time:'13:00',name:'聖水洞逛街',note:'潮牌、文具、設計師品牌',tag:'shop',lat:37.544,lng:127.056,naver:'성수동'},
+{n:4,time:'15:00',name:'🥩 烤黨 KOKUMI 聖水',note:'⚠️ 平日15:00開門！建議提前取號',tag:'food',lat:37.5432,lng:127.0575,naver:'꿉당 성수점'},
 {n:5,time:'16:30',name:'回住宿休息',note:'',tag:'transport',lat:37.5611,lng:127.0056},
-{n:6,time:'22:00',name:'🥩 水芹生牛肉',note:'聖水，營業到凌晨',tag:'food',lat:37.5427,lng:127.0539}]},
+{n:6,time:'22:00',name:'🥩 水芹生牛肉',note:'聖水，營業到凌晨',tag:'food',lat:37.5427,lng:127.0539,naver:'능동미나리 성수'}]},
 {day:3,date:'3/28（六）',title:'江南醫美＋Myeonseoul',subtitle:'EggDrop→GM→Tone\'s→賤兔の店→DDP',spots:[
-{n:1,time:'09:00',name:'🥪 Egg Drop 東大門',note:'CU順路買南瓜紅豆水',tag:'food',lat:37.5664,lng:127.0066},
-{n:2,time:'11:00',name:'🕶 Gentle Monster 新沙',note:'醫美前先逛',tag:'shop',lat:37.5220,lng:127.0220},
-{n:3,time:'14:00',name:'💉 Tone\'s Clinic 江南',note:'眼下＋瘦小腿＋InMode 約2-3hr',tag:'medical',lat:37.4984,lng:127.0267},
-{n:4,time:'17:30',name:'🍜 Myeonseoul 賤兔の店',note:'週六16:00-20:00',tag:'food',lat:37.5241,lng:127.0390},
-{n:5,time:'19:30',name:'🌃 DDP 夜景',note:'回住宿順路',tag:'activity',lat:37.5665,lng:127.0092}]},
+{n:1,time:'09:00',name:'🥪 Egg Drop 東大門',note:'CU順路買南瓜紅豆水',tag:'food',lat:37.5664,lng:127.0066,naver:'에그드랍 동대문점'},
+{n:2,time:'11:00',name:'🕶 Gentle Monster 新沙',note:'醫美前先逛',tag:'shop',lat:37.5220,lng:127.0220,naver:'젠틀몬스터 신사'},
+{n:3,time:'14:00',name:'💉 Tone\'s Clinic 江南',note:'眼下＋瘦小腿＋InMode 約2-3hr',tag:'medical',lat:37.4984,lng:127.0267,naver:'톤즈의원 강남'},
+{n:4,time:'17:30',name:'🍜 Myeonseoul 賤兔の店',note:'週六16:00-20:00',tag:'food',lat:37.5241,lng:127.0390,naver:'면서울'},
+{n:5,time:'19:30',name:'🌃 DDP 夜景',note:'回住宿順路',tag:'activity',lat:37.5665,lng:127.0092,naver:'동대문디자인플라자'}]},
 {day:4,date:'3/29（日）',title:'汝矣島→望遠→弘大',subtitle:'現代百貨→望遠市場→弘益醬蟹',spots:[
 {n:1,time:'10:00',name:'🍡 早餐：路上邊吃',note:'米餅、糖餅、年糕排骨',tag:'food',lat:37.566,lng:127.007},
-{n:2,time:'11:00',name:'🏬 The Hyundai Seoul',note:'5F空中花園必去',tag:'shop',lat:37.5259,lng:126.9284},
-{n:3,time:'12:00',name:'🍱 Mamalee Dining',note:'IFC Mall L3',tag:'food',lat:37.5249,lng:126.9252},
-{n:4,time:'14:00',name:'☕ MAMMOTH COFFEE',note:'奶茶',tag:'food',lat:37.5574,lng:126.9272},
-{n:5,time:'15:00',name:'🏪 望遠市場',note:'傳統市場 09:00-21:00',tag:'food',lat:37.5559,lng:126.9062},
-{n:6,time:'17:00',name:'🛍 弘大商圈',note:'逛街購物',tag:'shop',lat:37.556,lng:126.924},
-{n:7,time:'19:00',name:'🦀 弘益醬蟹',note:'⭐4.3 醬油蟹吃到飽',tag:'food',lat:37.5592,lng:126.9167},
-{n:8,time:'21:00',name:'🛒 no brand 超市',note:'零食伴手禮',tag:'shop',lat:37.554,lng:126.922}]},
+{n:2,time:'11:00',name:'🏬 The Hyundai Seoul',note:'5F空中花園必去',tag:'shop',lat:37.5259,lng:126.9284,naver:'더현대서울'},
+{n:3,time:'12:00',name:'🍱 Mamalee Dining',note:'IFC Mall L3',tag:'food',lat:37.5249,lng:126.9252,naver:'마마리다이닝 여의도IFC'},
+{n:4,time:'14:00',name:'☕ MAMMOTH COFFEE',note:'奶茶',tag:'food',lat:37.5574,lng:126.9272,naver:'매머드커피'},
+{n:5,time:'15:00',name:'🏪 望遠市場',note:'傳統市場 09:00-21:00',tag:'food',lat:37.5559,lng:126.9062,naver:'망원시장'},
+{n:6,time:'17:00',name:'🛍 弘大商圈',note:'逛街購物',tag:'shop',lat:37.556,lng:126.924,naver:'홍대입구역'},
+{n:7,time:'19:00',name:'🦀 弘益醬蟹',note:'⭐4.3 醬油蟹吃到飽',tag:'food',lat:37.5592,lng:126.9167,naver:'홍익게장 본점'},
+{n:8,time:'21:00',name:'🛒 no brand 超市',note:'零食伴手禮',tag:'shop',lat:37.554,lng:126.922,naver:'노브랜드 홍대점'}]},
 {day:5,date:'3/30（一）',title:'江南醫美＋回程',subtitle:'Blancjou→逛街→午餐→機場',spots:[
-{n:1,time:'11:00',name:'💆 Blancjou Clinic',note:'江南，美音波',tag:'medical',lat:37.5019,lng:127.0252},
-{n:2,time:'13:00',name:'🛍 Nice Weather Market',note:'江南選物店',tag:'shop',lat:37.5207,lng:127.0211},
+{n:1,time:'11:00',name:'💆 Blancjou Clinic',note:'江南，美音波',tag:'medical',lat:37.5019,lng:127.0252,naver:'블랑주의원 강남'},
+{n:2,time:'13:00',name:'🛍 Nice Weather Market',note:'江南選物店',tag:'shop',lat:37.5207,lng:127.0211,naver:'나이스웨더마켓 강남'},
 {n:3,time:'14:00',name:'🍽 江南午餐',note:'輕鬆吃完再出發',tag:'food',lat:37.518,lng:127.023},
-{n:4,time:'15:30',name:'🚇 出發前往機場',note:'江南→首爾站轉AREX',tag:'transport',lat:37.554,lng:126.972},
+{n:4,time:'15:30',name:'🚇 出發前往機場',note:'江南→首爾站轉AREX',tag:'transport',lat:37.554,lng:126.972,naver:'서울역'},
 {n:5,time:'17:00',name:'抵達仁川機場 T2',note:'退稅→免稅店 充裕3.5hr',tag:'activity',lat:37.4602,lng:126.4407},
 {n:6,time:'22:40',name:'✈️ 出發回台北',note:'3/31 00:10抵達桃園T1',tag:'transport',lat:37.4602,lng:126.4407}]}
 ];
@@ -214,8 +219,8 @@ const TAG_C={food:'tag-food',activity:'tag-activity',transport:'tag-transport',s
 let map,markers=[],polyline,currentDay=1;
 function initMap(){map=L.map('map',{zoomControl:true,attributionControl:false}).setView([37.555,126.98],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(map);showDay(1)}
 function clearMap(){markers.forEach(m=>map.removeLayer(m));markers=[];if(polyline){map.removeLayer(polyline);polyline=null}}
-function showDay(day){currentDay=day;const data=DAYS.find(d=>d.day===day),color=COLORS[day];document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',parseInt(t.dataset.day)===day));clearMap();const ss=data.spots.filter(s=>s.lat>37.47);ss.forEach(s=>{const icon=L.divIcon({className:'',html:`<div class="custom-marker" style="background:${color}">${s.n}</div>`,iconSize:[28,28],iconAnchor:[14,14]});const m=L.marker([s.lat,s.lng],{icon}).addTo(map);m.bindPopup(`<div style="text-align:center;min-width:140px"><b style="font-size:13px">${s.name}</b><br><small style="color:#888">${s.time}</small><br><a href="https://map.naver.com/v5/directions/-/-/-/transit?c=${s.lng},${s.lat},15,0,0,0,dh" target="_blank" style="display:inline-block;margin-top:6px;padding:5px 12px;background:#03c75a;color:#fff;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none">🧭 Naver Map 導航</a></div>`,{closeButton:false});markers.push(m)});if(ss.length>1){polyline=L.polyline(ss.map(s=>[s.lat,s.lng]),{color,weight:3,opacity:0.5,dashArray:'8,8'}).addTo(map)}if(ss.length>0){map.fitBounds(L.latLngBounds(ss.map(s=>[s.lat,s.lng])),{padding:[40,40],maxZoom:14})}document.getElementById('mapOverlay').innerHTML=`<strong style="color:${color}">Day ${day}</strong> ${data.title} · ${ss.length} 站`;renderTimeline(data,color)}
-function renderTimeline(data,color){const el=document.getElementById('timeline');let h=`<div class="day-header"><div class="day-badge" style="background:${color}">D${data.day}</div><div class="day-info"><h2>${data.title}</h2><p>${data.date} · ${data.subtitle}</p></div></div>`;data.spots.forEach(s=>{const nav=s.lat>37.47?`<a class="card-nav" href="https://map.naver.com/v5/directions/-/-/-/transit?c=${s.lng},${s.lat},15,0,0,0,dh" target="_blank" onclick="event.stopPropagation()">🧭 Naver Map 導航</a>`:'';h+=`<div class="card" onclick="flyTo(${s.lat},${s.lng})"><div class="card-top"><div class="card-num" style="background:${color}">${s.n}</div><div class="card-content"><div class="card-time">${s.time}</div><div class="card-name">${s.name}</div>${s.note?`<div class="card-note">${s.note}</div>`:''}<div class="card-tags"><span class="card-tag ${TAG_C[s.tag]}">${TAG_L[s.tag]}</span></div>${nav}</div></div></div>`});el.innerHTML=h}
+function showDay(day){currentDay=day;const data=DAYS.find(d=>d.day===day),color=COLORS[day];document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',parseInt(t.dataset.day)===day));clearMap();const ss=data.spots.filter(s=>s.lat>37.47);ss.forEach(s=>{const icon=L.divIcon({className:'',html:`<div class="custom-marker" style="background:${color}">${s.n}</div>`,iconSize:[28,28],iconAnchor:[14,14]});const m=L.marker([s.lat,s.lng],{icon}).addTo(map);const navBtn=s.naver?`<a href="https://map.naver.com/p/search/${encodeURIComponent(s.naver)}" target="_blank" style="display:inline-block;margin-top:6px;padding:5px 12px;background:#03c75a;color:#fff;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none">🧭 Naver Map</a>`:'';m.bindPopup(`<div style="text-align:center;min-width:140px"><b style="font-size:13px">${s.name}</b><br><small style="color:#888">${s.time}</small><br>${navBtn}</div>`,{closeButton:false});markers.push(m)});if(ss.length>1){polyline=L.polyline(ss.map(s=>[s.lat,s.lng]),{color,weight:3,opacity:0.5,dashArray:'8,8'}).addTo(map)}if(ss.length>0){map.fitBounds(L.latLngBounds(ss.map(s=>[s.lat,s.lng])),{padding:[40,40],maxZoom:14})}document.getElementById('mapOverlay').innerHTML=`<strong style="color:${color}">Day ${day}</strong> ${data.title} · ${ss.length} 站`;renderTimeline(data,color)}
+function renderTimeline(data,color){const el=document.getElementById('timeline');let h=`<div class="day-header"><div class="day-badge" style="background:${color}">D${data.day}</div><div class="day-info"><h2>${data.title}</h2><p>${data.date} · ${data.subtitle}</p></div></div>`;data.spots.forEach(s=>{const nav=s.naver?`<a class="card-nav" href="https://map.naver.com/p/search/${encodeURIComponent(s.naver)}" target="_blank" onclick="event.stopPropagation()">🧭 Naver Map 導航</a>`:'';h+=`<div class="card" onclick="flyTo(${s.lat},${s.lng})"><div class="card-top"><div class="card-num" style="background:${color}">${s.n}</div><div class="card-content"><div class="card-time">${s.time}</div><div class="card-name">${s.name}</div>${s.note?`<div class="card-note">${s.note}</div>`:''}<div class="card-tags"><span class="card-tag ${TAG_C[s.tag]}">${TAG_L[s.tag]}</span></div>${nav}</div></div></div>`});el.innerHTML=h}
 function flyTo(lat,lng){if(lat<37.47)return;map.flyTo([lat,lng],15,{duration:0.8});window.scrollTo({top:0,behavior:'smooth'})}
 function setView(mode,btn){const mc=document.getElementById('mapContainer'),tl=document.querySelector('.timeline-wrap');document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(mode==='map'){mc.style.height='calc(100vh - 76px)';mc.style.minHeight='0';tl.style.display='none'}else if(mode==='list'){mc.style.height='0';mc.style.minHeight='0';tl.style.display='block'}else{mc.style.height='38vh';mc.style.minHeight='240px';tl.style.display='block'}setTimeout(()=>map.invalidateSize(),300)}
 function openDrawer(){document.getElementById('drawerBackdrop').classList.add('open');document.getElementById('drawer').classList.add('open')}
@@ -226,6 +231,7 @@ function convertTWD(){const v=parseFloat(document.getElementById('twdInput').val
 function quickConvert(krw){document.getElementById('krwInput').value=krw;convertKRW();showToast(`₩${krw.toLocaleString()} ≈ NT$${Math.round(krw/RATE).toLocaleString()}`)}
 function swapCurrency(){const k=document.getElementById('krwInput').value,t=document.getElementById('twdInput').value;document.getElementById('krwInput').value=t?Math.round(parseFloat(t)*RATE):'';document.getElementById('twdInput').value=k?Math.round(parseFloat(k)/RATE):''}
 function copyText(text){navigator.clipboard.writeText(text).then(()=>showToast('已複製 ✓')).catch(()=>showToast('複製失敗'))}
+function speakKo(text){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='ko-KR';u.rate=0.85;u.pitch=1;window.speechSynthesis.speak(u)}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
 const tabsEl=document.getElementById('tabs');DAYS.forEach(d=>{tabsEl.innerHTML+=`<div class="tab" data-day="${d.day}" onclick="showDay(${d.day})">D${d.day} ${d.date}</div>`});
 window.addEventListener('load',initMap);
