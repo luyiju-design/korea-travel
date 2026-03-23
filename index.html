@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>🇰🇷 韓國行程 3/26-3/30</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f5f7;--surface:#fff;--surface2:#f0f0f2;--border:#e2e2e5;--text:#1a1a1a;--text2:#888;--text3:#aaa;--d1:#e8453c;--d2:#e8832a;--d3:#2ea44f;--d4:#2188ff;--d5:#8b5cf6;--radius:14px;--shadow:0 1px 4px rgba(0,0,0,0.06);--shadow2:0 8px 30px rgba(0,0,0,0.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+.header{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(255,255,255,0.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 14px 0}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.header-title{font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px}
+.tool-trigger{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;background:#fff;border:1.5px solid var(--border);font-size:12px;font-weight:600;color:var(--text);cursor:pointer;box-shadow:var(--shadow)}
+.tool-trigger:active{transform:scale(0.96)}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--text2);transition:all 0.2s;white-space:nowrap}
+.tab.active{color:#fff;font-weight:700;border-color:transparent}
+.tab[data-day="1"].active{background:var(--d1)}.tab[data-day="2"].active{background:var(--d2)}.tab[data-day="3"].active{background:var(--d3)}.tab[data-day="4"].active{background:var(--d4)}.tab[data-day="5"].active{background:var(--d5)}
+.map-container{margin-top:76px;height:38vh;min-height:240px;position:relative;transition:height 0.3s ease}
+#map{width:100%;height:100%;background:#f2efe9}
+.leaflet-control-attribution{display:none!important}.leaflet-control-zoom{border:none!important}
+.leaflet-control-zoom a{background:#fff!important;color:#333!important;border:1px solid #ccc!important;width:30px!important;height:30px!important;line-height:30px!important;font-size:15px!important}
+.map-overlay{position:absolute;bottom:10px;left:10px;z-index:800;background:rgba(255,255,255,0.94);backdrop-filter:blur(10px);border-radius:10px;padding:6px 11px;font-size:11px;color:#666;border:1px solid rgba(0,0,0,0.06);box-shadow:var(--shadow)}
+.map-overlay strong{font-weight:700}
+.custom-marker{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;color:#fff;font-weight:900;font-size:12px;font-family:'Noto Sans TC',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,0.25);border:2.5px solid #fff}
+.timeline-wrap{padding:12px 14px 120px}
+.day-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.day-badge{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff}
+.day-info h2{font-size:15px;font-weight:700;line-height:1.2}
+.day-info p{font-size:11px;color:var(--text2);margin-top:1px}
+.card{background:var(--surface);border-radius:var(--radius);padding:12px;margin-bottom:8px;border:1px solid var(--border);box-shadow:var(--shadow);transition:transform 0.15s;cursor:pointer}
+.card:active{transform:scale(0.98)}
+.card-top{display:flex;align-items:flex-start;gap:10px}
+.card-num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#fff;flex-shrink:0}
+.card-content{flex:1;min-width:0}
+.card-time{font-size:11px;color:var(--text2);font-weight:500}
+.card-name{font-size:14px;font-weight:700;line-height:1.3;margin-top:1px}
+.card-note{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.45}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.card-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600}
+.tag-food{background:#fff0ed;color:#d4400e}.tag-activity{background:#eef6ff;color:#1a73e8}.tag-transport{background:#f3f0ff;color:#7c3aed}.tag-stay{background:#ecfdf5;color:#059669}.tag-shop{background:#fff7ed;color:#c2590a}.tag-medical{background:#fef2f2;color:#dc2626}
+.card-nav{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#fff;font-weight:700;margin-top:6px;padding:6px 12px;border-radius:8px;background:#03c75a;text-decoration:none}
+.card-nav:active{background:#029a48}
+.drawer-backdrop{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.35);opacity:0;pointer-events:none;transition:opacity 0.3s}
+.drawer-backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;bottom:0;left:0;right:0;z-index:2001;background:#fff;border-radius:20px 20px 0 0;max-height:85vh;overflow-y:auto;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);box-shadow:0 -4px 30px rgba(0,0,0,0.15)}
+.drawer.open{transform:translateY(0)}
+.drawer-handle{width:36px;height:4px;border-radius:2px;background:#d1d1d6;margin:10px auto 6px}
+.drawer-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);padding:0 14px;position:sticky;top:0;background:#fff;z-index:1}
+.drawer-tab{padding:10px 14px;font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;border:none;background:none;border-bottom:2.5px solid transparent;font-family:'Noto Sans TC',sans-serif}
+.drawer-tab.active{color:var(--text);border-bottom-color:var(--text)}
+.drawer-panel{display:none;padding:16px}
+.drawer-panel.active{display:block}
+.currency-card{background:var(--surface2);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.currency-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.currency-flag{font-size:28px}
+.currency-input-wrap{flex:1}
+.currency-label{font-size:11px;color:var(--text2);font-weight:500;margin-bottom:2px}
+.currency-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;font-size:20px;font-weight:700;font-family:'Noto Sans TC',sans-serif;background:#fff;color:var(--text);outline:none}
+.currency-input:focus{border-color:var(--d4)}
+.currency-swap{width:36px;height:36px;border-radius:50%;background:#fff;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:var(--shadow)}
+.currency-swap:active{transform:scale(0.9)}
+.currency-rate{font-size:11px;color:var(--text2);text-align:center}
+.quick-amounts{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.quick-amt{padding:6px 12px;border-radius:10px;background:#fff;border:1.5px solid var(--border);font-size:12px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;color:var(--text)}
+.quick-amt:active{background:var(--surface2)}
+.phrase-group{margin-bottom:16px}
+.phrase-group-title{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;letter-spacing:0.5px}
+.phrase{background:var(--surface2);border-radius:12px;padding:10px 12px;margin-bottom:6px}
+.phrase-ko{font-size:15px;font-weight:700;line-height:1.3}
+.phrase-zh{font-size:12px;color:var(--text2);margin-top:1px}
+.phrase-sound{font-size:11px;color:var(--d4);font-weight:500;background:#eef6ff;padding:2px 8px;border-radius:8px;margin-top:2px;display:inline-block}
+.info-card{background:var(--surface2);border-radius:var(--radius);padding:14px;margin-bottom:10px}
+.info-card-title{font-size:13px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.info-item{font-size:12px;color:var(--text2);line-height:1.8}
+.info-item strong{color:var(--text);font-weight:600}
+.info-copy{display:inline-block;padding:2px 8px;border-radius:6px;background:#fff;border:1px solid var(--border);font-size:10px;color:var(--text2);cursor:pointer;margin-left:4px;font-weight:500}
+.info-copy:active{background:var(--surface2)}
+.view-toggle{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;background:rgba(255,255,255,0.95);backdrop-filter:blur(16px);border-radius:24px;padding:3px;border:1px solid var(--border);gap:2px;box-shadow:var(--shadow2)}
+.toggle-btn{padding:7px 16px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text2);transition:all 0.2s;font-family:'Noto Sans TC',sans-serif}
+.toggle-btn.active{background:var(--text);color:#fff}
+.toast{position:fixed;top:90px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:500;z-index:3000;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <div class="header-title">🇰🇷 首爾 3/26—3/30</div>
+    <div class="tool-trigger" onclick="openDrawer()">🧰 工具箱</div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+</div>
+<div class="map-container" id="mapContainer"><div id="map"></div><div class="map-overlay" id="mapOverlay"></div></div>
+<div class="timeline-wrap" id="timeline"></div>
+<div class="view-toggle">
+  <button class="toggle-btn active" onclick="setView('both',this)">地圖+行程</button>
+  <button class="toggle-btn" onclick="setView('map',this)">全地圖</button>
+  <button class="toggle-btn" onclick="setView('list',this)">全行程</button>
+</div>
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-tabs">
+    <button class="drawer-tab active" onclick="switchDrawerTab('currency',this)">💰 匯率</button>
+    <button class="drawer-tab" onclick="switchDrawerTab('phrases',this)">🗣 韓文</button>
+    <button class="drawer-tab" onclick="switchDrawerTab('info',this)">📋 必備</button>
+  </div>
+  <div class="drawer-panel active" id="panel-currency">
+    <div class="currency-card">
+      <div class="currency-row"><div class="currency-flag">🇰🇷</div><div class="currency-input-wrap"><div class="currency-label">韓元 KRW</div><input class="currency-input" id="krwInput" type="number" inputmode="numeric" placeholder="0" oninput="convertKRW()"></div></div>
+      <div style="display:flex;justify-content:center;margin:-4px 0 8px"><div class="currency-swap" onclick="swapCurrency()">⇅</div></div>
+      <div class="currency-row"><div class="currency-flag">🇹🇼</div><div class="currency-input-wrap"><div class="currency-label">台幣 TWD</div><input class="currency-input" id="twdInput" type="number" inputmode="numeric" placeholder="0" oninput="convertTWD()"></div></div>
+      <div class="currency-rate">匯率 1 TWD ≈ 43.5 KRW（出發前請更新）</div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px">⚡ 快速換算（韓元→台幣）</div>
+    <div class="quick-amounts">
+      <div class="quick-amt" onclick="quickConvert(5000)">₩5,000</div>
+      <div class="quick-amt" onclick="quickConvert(10000)">₩10,000</div>
+      <div class="quick-amt" onclick="quickConvert(15000)">₩15,000</div>
+      <div class="quick-amt" onclick="quickConvert(25000)">₩25,000</div>
+      <div class="quick-amt" onclick="quickConvert(50000)">₩50,000</div>
+      <div class="quick-amt" onclick="quickConvert(80000)">₩80,000</div>
+      <div class="quick-amt" onclick="quickConvert(100000)">₩100,000</div>
+    </div>
+  </div>
+  <div class="drawer-panel" id="panel-phrases">
+    <div class="phrase-group"><div class="phrase-group-title">🍽 點餐 / 餐廳</div>
+      <div class="phrase"><div class="phrase-ko">이거 주세요</div><div class="phrase-zh">請給我這個</div><div class="phrase-sound">i-geo ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">메뉴판 주세요</div><div class="phrase-zh">請給我菜單</div><div class="phrase-sound">me-nyu-pan ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">계산해 주세요</div><div class="phrase-zh">請結帳</div><div class="phrase-sound">gye-san-hae ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">포장해 주세요</div><div class="phrase-zh">請幫我外帶</div><div class="phrase-sound">po-jang-hae ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">맵지 않게 해 주세요</div><div class="phrase-zh">請不要太辣</div><div class="phrase-sound">maep-ji an-ke hae ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">하나 더 주세요</div><div class="phrase-zh">請再給我一份</div><div class="phrase-sound">ha-na deo ju-se-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">두 명이요</div><div class="phrase-zh">兩位</div><div class="phrase-sound">du myeong-i-yo</div></div>
+    </div>
+    <div class="phrase-group"><div class="phrase-group-title">🛍 購物</div>
+      <div class="phrase"><div class="phrase-ko">얼마예요?</div><div class="phrase-zh">多少錢？</div><div class="phrase-sound">eol-ma-ye-yo?</div></div>
+      <div class="phrase"><div class="phrase-ko">카드 돼요?</div><div class="phrase-zh">可以刷卡嗎？</div><div class="phrase-sound">ka-deu dwae-yo?</div></div>
+      <div class="phrase"><div class="phrase-ko">세금 환급 돼요?</div><div class="phrase-zh">可以退稅嗎？</div><div class="phrase-sound">se-geum hwan-geup dwae-yo?</div></div>
+      <div class="phrase"><div class="phrase-ko">좀 더 싸게 해 주세요</div><div class="phrase-zh">可以便宜一點嗎？</div><div class="phrase-sound">jom deo ssa-ge hae ju-se-yo</div></div>
+    </div>
+    <div class="phrase-group"><div class="phrase-group-title">🚇 交通 / 方向</div>
+      <div class="phrase"><div class="phrase-ko">여기가 어디예요?</div><div class="phrase-zh">這裡是哪裡？</div><div class="phrase-sound">yeo-gi-ga eo-di-ye-yo?</div></div>
+      <div class="phrase"><div class="phrase-ko">화장실 어디예요?</div><div class="phrase-zh">廁所在哪裡？</div><div class="phrase-sound">hwa-jang-shil eo-di-ye-yo?</div></div>
+      <div class="phrase"><div class="phrase-ko">지하철역 어디예요?</div><div class="phrase-zh">地鐵站在哪裡？</div><div class="phrase-sound">ji-ha-cheol-yeok eo-di-ye-yo?</div></div>
+    </div>
+    <div class="phrase-group"><div class="phrase-group-title">💬 基本禮貌</div>
+      <div class="phrase"><div class="phrase-ko">감사합니다</div><div class="phrase-zh">謝謝</div><div class="phrase-sound">gam-sa-ham-ni-da</div></div>
+      <div class="phrase"><div class="phrase-ko">죄송합니다</div><div class="phrase-zh">對不起</div><div class="phrase-sound">joe-song-ham-ni-da</div></div>
+      <div class="phrase"><div class="phrase-ko">괜찮아요</div><div class="phrase-zh">沒關係</div><div class="phrase-sound">gwaen-chan-a-yo</div></div>
+      <div class="phrase"><div class="phrase-ko">잠시만요</div><div class="phrase-zh">請等一下</div><div class="phrase-sound">jam-si-man-yo</div></div>
+    </div>
+  </div>
+  <div class="drawer-panel" id="panel-info">
+    <div class="info-card"><div class="info-card-title">🏨 住宿</div><div class="info-item"><strong>PIPE Hostel Dongdaemun</strong><br>42 Dongho-ro 24-gil, 中區, 首爾 04616 <span class="info-copy" onclick="copyText('42 Dongho-ro 24-gil, Jung-gu, Seoul 04616')">複製地址</span><br>Check in 16:00 後</div></div>
+    <div class="info-card"><div class="info-card-title">📱 必裝 APP</div><div class="info-item"><strong>Naver Map</strong> — 韓國導航最準<br><strong>Papago</strong> — 韓文翻譯＋拍照翻譯<br><strong>KakaoTalk</strong> — 韓國國民通訊<br><strong>CatchTable</strong> — 餐廳排隊取號</div></div>
+    <div class="info-card"><div class="info-card-title">🚇 交通</div><div class="info-item"><strong>T-money 卡</strong> — 地鐵、巴士、便利商店通用<br><strong>轉乘優惠</strong> — 30min 內轉乘免費<br><strong>末班車</strong> — 約 23:30-00:00（依路線）<br><strong>AREX</strong> — 首爾站↔仁川約 43min 直達</div></div>
+    <div class="info-card"><div class="info-card-title">💉 醫美預約</div><div class="info-item"><strong>Tone's Clinic</strong> — 3/28 14:00<br>江南大路 403, 9F ｜ <span class="info-copy" onclick="copyText('+82 2-6953-2667')">複製電話</span><br><strong>Blancjou</strong> — 3/30 11:00<br>瑞草洞 1304-5 ｜ <span class="info-copy" onclick="copyText('+82 2-592-5500')">複製電話</span></div></div>
+    <div class="info-card"><div class="info-card-title">🆘 緊急聯絡</div><div class="info-item"><strong>報警</strong> 112 ｜ <strong>急救</strong> 119<br><strong>旅遊諮詢</strong> 1330（有中文）<br><strong>駐韓台北代表部</strong><br>+82 2-6329-6000 <span class="info-copy" onclick="copyText('+82 2-6329-6000')">複製</span><br><small style="color:var(--text3)">緊急：+82 10-9080-2761</small></div></div>
+    <div class="info-card"><div class="info-card-title">✈️ 航班</div><div class="info-item"><strong>去程 3/26</strong> 桃園T1 12:40→仁川T2 16:05<br><strong>回程 3/30</strong> 仁川T2 22:40→桃園T1 00:10+1</div></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const COLORS={1:'#e8453c',2:'#e8832a',3:'#2ea44f',4:'#2188ff',5:'#8b5cf6'};
+const RATE=43.5;
+const DAYS=[
+{day:1,date:'3/26（四）',title:'抵達＋明洞',subtitle:'機場→換錢→藥局→炸雞',spots:[
+{n:1,time:'16:05',name:'抵達仁川機場 T2',note:'過海關＋領行李約 40-60min',tag:'transport',lat:37.4602,lng:126.4407},
+{n:2,time:'18:10',name:'機場巴士 → 明洞',note:'車程約 70min',tag:'transport',lat:37.5608,lng:126.9832},
+{n:3,time:'19:30',name:'MoneyPlanet 換錢',note:'⚠️ 週四營業到20:30，下車直奔！',tag:'activity',lat:37.5608,lng:126.9832},
+{n:4,time:'20:00',name:'樂天百貨領 T-money',note:'1F退稅櫃檯或B1外籍服務台',tag:'activity',lat:37.5652,lng:126.9832},
+{n:5,time:'20:30',name:'NOVA PHARMACY 藥局',note:'營業到23:00',tag:'shop',lat:37.5610,lng:126.9833},
+{n:6,time:'21:00',name:'🍗 BHC 炸雞',note:'明洞店，營業到凌晨12點',tag:'food',lat:37.5645,lng:126.9838},
+{n:7,time:'23:00',name:'Check in PIPE Hostel',note:'東大門',tag:'stay',lat:37.5611,lng:127.0056}]},
+{day:2,date:'3/27（五）',title:'聖水洞深度探索',subtitle:'早午餐→形象照→烤黨→宵夜水芹牛肉',spots:[
+{n:1,time:'09:00',name:'🥪 Butty Sandwich House',note:'聖水 ⭐4.6',tag:'food',lat:37.5407,lng:127.0602},
+{n:2,time:'10:30',name:'形象照（待確認）',note:'建議選聖水區域',tag:'activity',lat:37.545,lng:127.055},
+{n:3,time:'13:00',name:'聖水洞逛街',note:'潮牌、文具、設計師品牌',tag:'shop',lat:37.544,lng:127.056},
+{n:4,time:'15:00',name:'🥩 烤黨 KOKUMI 聖水',note:'⚠️ 平日15:00開門！建議提前取號',tag:'food',lat:37.5432,lng:127.0575},
+{n:5,time:'16:30',name:'回住宿休息',note:'',tag:'transport',lat:37.5611,lng:127.0056},
+{n:6,time:'22:00',name:'🥩 水芹生牛肉',note:'聖水，營業到凌晨',tag:'food',lat:37.5427,lng:127.0539}]},
+{day:3,date:'3/28（六）',title:'江南醫美＋Myeonseoul',subtitle:'EggDrop→GM→Tone\'s→賤兔の店→DDP',spots:[
+{n:1,time:'09:00',name:'🥪 Egg Drop 東大門',note:'CU順路買南瓜紅豆水',tag:'food',lat:37.5664,lng:127.0066},
+{n:2,time:'11:00',name:'🕶 Gentle Monster 新沙',note:'醫美前先逛',tag:'shop',lat:37.5220,lng:127.0220},
+{n:3,time:'14:00',name:'💉 Tone\'s Clinic 江南',note:'眼下＋瘦小腿＋InMode 約2-3hr',tag:'medical',lat:37.4984,lng:127.0267},
+{n:4,time:'17:30',name:'🍜 Myeonseoul 賤兔の店',note:'週六16:00-20:00',tag:'food',lat:37.5241,lng:127.0390},
+{n:5,time:'19:30',name:'🌃 DDP 夜景',note:'回住宿順路',tag:'activity',lat:37.5665,lng:127.0092}]},
+{day:4,date:'3/29（日）',title:'汝矣島→望遠→弘大',subtitle:'現代百貨→望遠市場→弘益醬蟹',spots:[
+{n:1,time:'10:00',name:'🍡 早餐：路上邊吃',note:'米餅、糖餅、年糕排骨',tag:'food',lat:37.566,lng:127.007},
+{n:2,time:'11:00',name:'🏬 The Hyundai Seoul',note:'5F空中花園必去',tag:'shop',lat:37.5259,lng:126.9284},
+{n:3,time:'12:00',name:'🍱 Mamalee Dining',note:'IFC Mall L3',tag:'food',lat:37.5249,lng:126.9252},
+{n:4,time:'14:00',name:'☕ MAMMOTH COFFEE',note:'奶茶',tag:'food',lat:37.5574,lng:126.9272},
+{n:5,time:'15:00',name:'🏪 望遠市場',note:'傳統市場 09:00-21:00',tag:'food',lat:37.5559,lng:126.9062},
+{n:6,time:'17:00',name:'🛍 弘大商圈',note:'逛街購物',tag:'shop',lat:37.556,lng:126.924},
+{n:7,time:'19:00',name:'🦀 弘益醬蟹',note:'⭐4.3 醬油蟹吃到飽',tag:'food',lat:37.5592,lng:126.9167},
+{n:8,time:'21:00',name:'🛒 no brand 超市',note:'零食伴手禮',tag:'shop',lat:37.554,lng:126.922}]},
+{day:5,date:'3/30（一）',title:'江南醫美＋回程',subtitle:'Blancjou→逛街→午餐→機場',spots:[
+{n:1,time:'11:00',name:'💆 Blancjou Clinic',note:'江南，美音波',tag:'medical',lat:37.5019,lng:127.0252},
+{n:2,time:'13:00',name:'🛍 Nice Weather Market',note:'江南選物店',tag:'shop',lat:37.5207,lng:127.0211},
+{n:3,time:'14:00',name:'🍽 江南午餐',note:'輕鬆吃完再出發',tag:'food',lat:37.518,lng:127.023},
+{n:4,time:'15:30',name:'🚇 出發前往機場',note:'江南→首爾站轉AREX',tag:'transport',lat:37.554,lng:126.972},
+{n:5,time:'17:00',name:'抵達仁川機場 T2',note:'退稅→免稅店 充裕3.5hr',tag:'activity',lat:37.4602,lng:126.4407},
+{n:6,time:'22:40',name:'✈️ 出發回台北',note:'3/31 00:10抵達桃園T1',tag:'transport',lat:37.4602,lng:126.4407}]}
+];
+const TAG_L={food:'美食',activity:'活動',transport:'交通',stay:'住宿',shop:'購物',medical:'醫美'};
+const TAG_C={food:'tag-food',activity:'tag-activity',transport:'tag-transport',stay:'tag-stay',shop:'tag-shop',medical:'tag-medical'};
+let map,markers=[],polyline,currentDay=1;
+function initMap(){map=L.map('map',{zoomControl:true,attributionControl:false}).setView([37.555,126.98],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18}).addTo(map);showDay(1)}
+function clearMap(){markers.forEach(m=>map.removeLayer(m));markers=[];if(polyline){map.removeLayer(polyline);polyline=null}}
+function showDay(day){currentDay=day;const data=DAYS.find(d=>d.day===day),color=COLORS[day];document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',parseInt(t.dataset.day)===day));clearMap();const ss=data.spots.filter(s=>s.lat>37.47);ss.forEach(s=>{const icon=L.divIcon({className:'',html:`<div class="custom-marker" style="background:${color}">${s.n}</div>`,iconSize:[28,28],iconAnchor:[14,14]});const m=L.marker([s.lat,s.lng],{icon}).addTo(map);m.bindPopup(`<div style="text-align:center;min-width:140px"><b style="font-size:13px">${s.name}</b><br><small style="color:#888">${s.time}</small><br><a href="https://map.naver.com/v5/directions/-/-/-/transit?c=${s.lng},${s.lat},15,0,0,0,dh" target="_blank" style="display:inline-block;margin-top:6px;padding:5px 12px;background:#03c75a;color:#fff;border-radius:8px;font-size:11px;font-weight:700;text-decoration:none">🧭 Naver Map 導航</a></div>`,{closeButton:false});markers.push(m)});if(ss.length>1){polyline=L.polyline(ss.map(s=>[s.lat,s.lng]),{color,weight:3,opacity:0.5,dashArray:'8,8'}).addTo(map)}if(ss.length>0){map.fitBounds(L.latLngBounds(ss.map(s=>[s.lat,s.lng])),{padding:[40,40],maxZoom:14})}document.getElementById('mapOverlay').innerHTML=`<strong style="color:${color}">Day ${day}</strong> ${data.title} · ${ss.length} 站`;renderTimeline(data,color)}
+function renderTimeline(data,color){const el=document.getElementById('timeline');let h=`<div class="day-header"><div class="day-badge" style="background:${color}">D${data.day}</div><div class="day-info"><h2>${data.title}</h2><p>${data.date} · ${data.subtitle}</p></div></div>`;data.spots.forEach(s=>{const nav=s.lat>37.47?`<a class="card-nav" href="https://map.naver.com/v5/directions/-/-/-/transit?c=${s.lng},${s.lat},15,0,0,0,dh" target="_blank" onclick="event.stopPropagation()">🧭 Naver Map 導航</a>`:'';h+=`<div class="card" onclick="flyTo(${s.lat},${s.lng})"><div class="card-top"><div class="card-num" style="background:${color}">${s.n}</div><div class="card-content"><div class="card-time">${s.time}</div><div class="card-name">${s.name}</div>${s.note?`<div class="card-note">${s.note}</div>`:''}<div class="card-tags"><span class="card-tag ${TAG_C[s.tag]}">${TAG_L[s.tag]}</span></div>${nav}</div></div></div>`});el.innerHTML=h}
+function flyTo(lat,lng){if(lat<37.47)return;map.flyTo([lat,lng],15,{duration:0.8});window.scrollTo({top:0,behavior:'smooth'})}
+function setView(mode,btn){const mc=document.getElementById('mapContainer'),tl=document.querySelector('.timeline-wrap');document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if(mode==='map'){mc.style.height='calc(100vh - 76px)';mc.style.minHeight='0';tl.style.display='none'}else if(mode==='list'){mc.style.height='0';mc.style.minHeight='0';tl.style.display='block'}else{mc.style.height='38vh';mc.style.minHeight='240px';tl.style.display='block'}setTimeout(()=>map.invalidateSize(),300)}
+function openDrawer(){document.getElementById('drawerBackdrop').classList.add('open');document.getElementById('drawer').classList.add('open')}
+function closeDrawer(){document.getElementById('drawerBackdrop').classList.remove('open');document.getElementById('drawer').classList.remove('open')}
+function switchDrawerTab(panel,btn){document.querySelectorAll('.drawer-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.drawer-panel').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('panel-'+panel).classList.add('active')}
+function convertKRW(){const v=parseFloat(document.getElementById('krwInput').value);document.getElementById('twdInput').value=v?Math.round(v/RATE):''}
+function convertTWD(){const v=parseFloat(document.getElementById('twdInput').value);document.getElementById('krwInput').value=v?Math.round(v*RATE):''}
+function quickConvert(krw){document.getElementById('krwInput').value=krw;convertKRW();showToast(`₩${krw.toLocaleString()} ≈ NT$${Math.round(krw/RATE).toLocaleString()}`)}
+function swapCurrency(){const k=document.getElementById('krwInput').value,t=document.getElementById('twdInput').value;document.getElementById('krwInput').value=t?Math.round(parseFloat(t)*RATE):'';document.getElementById('twdInput').value=k?Math.round(parseFloat(k)/RATE):''}
+function copyText(text){navigator.clipboard.writeText(text).then(()=>showToast('已複製 ✓')).catch(()=>showToast('複製失敗'))}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+const tabsEl=document.getElementById('tabs');DAYS.forEach(d=>{tabsEl.innerHTML+=`<div class="tab" data-day="${d.day}" onclick="showDay(${d.day})">D${d.day} ${d.date}</div>`});
+window.addEventListener('load',initMap);
+</script>
+</body>
+</html>
